@@ -84,119 +84,91 @@ function annuleErreur (ouInjecter, messageErreur, styleSurInput) {
 };
 
 //Ecoute l'input du nom et renvoie une erreur si celui ci est un nombre ou s'il a moins de 2 caratères.
-firstName.addEventListener('change', function(e){
-  if (/(^[a-zA-Z])([a-zA-Z\-\'])/.test(e.target.value)) {
-    resPrenom.message = resPrenom.endroit.innerText = "" ;
-    resPrenom.valeur = true;
-    conditionValidation.splice(0,1, true)
+function validPrenom () {
+  if (/(^[a-zA-Z])([a-zA-Z\-\'])/.test(firstName.value)){
+    resPrenom.valeur = true
+    resPrenom.endroit.innerText = ""
   } else {
-    resPrenom.message = resPrenom.endroit.innerText = "Veuillez rentrer 2 caractères ou plus." ;
-    resPrenom.valeur = false;
-    conditionValidation.splice(0,1, false)
-
-    }
-});
-
-//Ecoute l'input du prenom et renvoie une erreur si celui ci est un nombre ou s'il a moins de 2 caratères.
-lastName.addEventListener('change', function(e){
-  if (/(^[a-zA-Z])([a-zA-Z\-\'])/.test(e.target.value)) {
-    resNom.message = resNom.endroit.innerText = "" ;
-    resNom.valeur = true;
-    conditionValidation.splice(1,1, true)
-  } else {
-    resNom.message = resNom.endroit.innerText = "Veuillez rentrer 2 caractères ou plus." ;
-    resNom.valeur = false;
-    conditionValidation.splice(1,1, false)
+    resPrenom.valeur = false
+    resPrenom.endroit.innerText = resPrenom.message
   }
-
-});
+};
+//Ecoute l'input du prenom et renvoie une erreur si celui ci est un nombre ou s'il a moins de 2 caratères.
+function validNom (){
+  if (/(^[a-zA-Z])([a-zA-Z\-\'])/.test(lastName.value)) {
+    resNom.valeur = true;
+    resNom.endroit.innerText = ""
+  } else {
+    resNom.valeur = false;
+    resNom.endroit.innerText = resNom.message
+  }
+}
 
 //Ecoute l'input de l'email et renvoie un resultat true si le format correpsond ou sinon message d'erreur.
-email.addEventListener('change', function (e){
-  if (/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i.test(e.target.value)){
-    resEmail.message = resEmail.endroit.innerText = "" ;
+function validEmail (){
+  if (/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i.test(email.value)){
     resEmail.valeur = true;
-    conditionValidation.splice(2,1, true)
+    resEmail.endroit.innerText = ""
   } else {
-    resEmail.message = resEmail.endroit.innerText = "Veuillez rentrer une adresse mail valide." ;
     resEmail.valeur = false;
-    conditionValidation.splice(2, 1, false)
+    resEmail.endroit.innerText = resEmail.message
   }
-
-});
-
+}
 //Ecoute l'input birthday et renvoie true si juste 
 //Renvoie des messages d'erreurs si false en fonction de l'age rentré
-birthday.addEventListener('change', function(e){
-  let anniversaire = new Date(e.target.value);
+function validBirthday () {
+  let anniversaire = new Date(birthday.value);
   if((anniversaire >= dateBasse)&&(anniversaire <= dateHaute)){
-    resBirthday.message = resBirthday.endroit.innerText = "" ;
     resBirthday.valeur = true;
-    conditionValidation.splice(3, 1, true)
+    resBirthday.message = resBirthday.endroit.innerText = "" ;
   } else if (anniversaire < dateBasse){
-    resBirthday.message = resBirthday.endroit.innerText = "Vous me semblez un peu trop agé pour participer. Merci de rentrer une date valide." ;
     resBirthday.valeur = false;
-    conditionValidation.splice(3, 1, false)
+    resBirthday.message = resBirthday.endroit.innerText = "Vous me semblez un peu trop agé pour participer. Merci de rentrer une date valide." ;
   } else if (anniversaire > dateNow){
-    resBirthday.message = resBirthday.endroit.innerText = "Merci de rentrer un date valide." ;
     resBirthday.valeur = false; 
-    conditionValidation.splice(3, 1, false)
+    resBirthday.message = resBirthday.endroit.innerText = "Merci de rentrer un date valide." ;
   } else if ((anniversaire > dateHaute) && (anniversaire <= dateNow)){
+    resBirthday.valeur = false; 
     resBirthday.message = resBirthday.endroit.innerText = "Tu me semble un peu jeune pour participer, reviens nous voir dans quelques années." ;
-    resBirthday.valeur = false; 
-    conditionValidation.splice(3, 1, false)
   } else {
-    resBirthday.message = resBirthday.endroit.innerText = "Merci de rentrer un date valide." ;
     resBirthday.valeur = false; 
-    conditionValidation.splice(3, 1, false)
+    resBirthday.message = resBirthday.endroit.innerText = "Merci de rentrer un date valide." ;
   }
-
-})
+}
 
 //Ecoute l'input de la quantité de tournoi et renvoi une erreur si elle si compris entre 0-99 ou si lettres
-nbrTournois.addEventListener('change', function(e) {
-  if ((/[0-9]/.test(e.target.value)) && (e.target.value >= 0) && (e.target.value <100)){
-    resTournois.message = resTournois.endroit.innerText = "" ;
+function validTournois () {
+  if ((/[0-9]/.test(nbrTournois.value)) && (nbrTournois.value >= 0) && (nbrTournois.value <100)){
     resTournois.valeur = true;
-    conditionValidation.splice(4, 1, true)
+    resTournois.endroit.innerText = ""
   } else {
-    resTournois.message = resTournois.endroit.innerText = "Veuillez renseigner un nombre entre 0 et 99." ;
     resTournois.valeur = false; 
-    conditionValidation.splice(4, 1, false)
+    resTournois.endroit.innerText = resTournois.message
   }
-
-});
-
+}
 //Ecoute les inputs de type radio compris dans la variable de type array villes
 //Retourne le résultat dans une variable de type array. Si celui si est !=0 alors une ville est check
-for (let i = 0; i < villes.length; i++){
-  villes[i].addEventListener('change', function(){
-    if (villes[i].checked){
-      resVille.message = resVille.endroit.innerText = "" ;
-      resVille.valeur = true;
-      conditionValidation.splice(5, 1, true)
-    } else {
-        resVille.valeur = false; 
-        resVille.message = resVille.endroit.innerText = "Veuillez indiquer une ville." ;
-        conditionValidation.splice(5, 1, false)
-      }
-  })
-  console.log(resVille.valeur)
-};
+function validVille (){
+  for(let i = 0; i < villes.length; i++) {
+    if(villes[i].checked) {
+      resVille.endroit.innerText = ""
+      return resVille.valeur = true
+    }
+    resVille.valeur = false
+    resVille.endroit.innerText = resVille.message
+  }
+}
 
 //Ecoute l'input de condition d'utilisation et renvoie true si check et false sinon. 
-conditionUtilisation.addEventListener('change', function (){
+function validCondition () {
   if (conditionUtilisation.checked){
-    resCondition.message = resCondition.endroit.innerText = "" ;
-    resCondition.valeur = true;
-    conditionValidation.splice(6, 1, true)
-  } else {
-    resCondition.message = resCondition.endroit.innerText = "Veuillez accepter les conditions d'utilisation." ;
-    resCondition.valeur = false; 
-    conditionValidation.splice(6, 1, false)
-  }
-
-});
+      resCondition.valeur = true;
+      resCondition.endroit.innerText = ""
+    } else {
+      resCondition.valeur = false; 
+      resCondition.endroit.innerText = resCondition.message
+    }
+}
 
 function messageValidation () {
   formData.forEach(items => {
@@ -206,37 +178,45 @@ function messageValidation () {
   messsageValidation.className = 'validation';
   messsageValidation.innerText = "Merci pour votre inscription !"
   form.appendChild(messsageValidation);
-
 };
+
  let variableTest = true
 
-/*
 function test (constante){
   constante === true;
 };
-*/
 
 function validationModale (e) {
-  e.preventDefault(); 
   validationTableau()
-  console.log(variableTest)
-
-  if (variableTest === true) {
-    messageValidation()
+  if(resPrenom.valeur === false){
+    return
+  } else if(resNom.valeur === false) {
+    return
+  } else if(resEmail.valeur === false) {
+    return
+  } else if (resBirthday.valeur === false) {
+    return 
+  } else if (resTournois.valeur === false) {
+    return
+  } else if (resVille.valeur === false) {
+    return
+  } else if (resCondition.valeur === false) {
+    return
+  } else {
+    messageValidation();
     fermeModal()
+    e.preventDefault(); 
   }
-
 }
 
 function validationTableau () {
-  for (let i = 0; i < resTotals.length; i++ ){
-    if (resTotals[i].valeur === true) {
-      return;
-    } else {
-    resTotals[i].endroit.innerText = resTotals[i].message
-    variableTest = false 
-    }
-  }
+  validPrenom();
+  validNom(); 
+  validEmail(); 
+  validBirthday(); 
+  validTournois(); 
+  validVille(); 
+  validCondition(); 
 }
 
 btnSubmit.addEventListener('click', validationModale);
