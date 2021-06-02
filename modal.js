@@ -27,6 +27,7 @@ const portland = document.getElementById("location6");
 const villes = [newYork, sanFrancisco, seattle, chicago, boston, portland];
 const conditionUtilisation = document.getElementById("checkbox1");
 const btnSubmit = document.querySelector('.btn-submit[type="submit"]');
+const formulaire = document.getElementById("formulaire"); 
 
 const erreurQuantiteTournois = document.getElementById("message__tournoi");
 const erreurNom = document.getElementById("message__nom");
@@ -215,10 +216,15 @@ function messageValidation() {
   formData.forEach((items) => {
     items.style["visibility"] = "hidden";
   });
+  btnSubmit.style["visibility"] = "hidden";
   let messsageValidation = document.createElement("p");
   messsageValidation.className = "validation";
   messsageValidation.innerText = "Merci pour votre inscription !";
   form.appendChild(messsageValidation);
+  let boutonFermer = document.createElement('div'); 
+  boutonFermer.className = "bouton-fermer"; 
+  boutonFermer.innerText = "Fermer"; 
+  form.appendChild(boutonFermer)
 }
 
 //Fonction qui vérifie si si le formulaire est bien renplis et l'envoi si c'est bon avec un message
@@ -226,24 +232,24 @@ function messageValidation() {
 function validationModale(e) {
   validationTableau();
   e.preventDefault(); 
-  if (resPrenom.valeur === false) {
+  if (!resPrenom.valeur) {
     return;
-  } else if (resNom.valeur === false) {
+  } else if (!resNom.valeur) {
     return;
-  } else if (resEmail.valeur === false) {
+  } else if (!resEmail.valeur) {
     return;
-  } else if (resBirthday.valeur === false) {
+  } else if (!resBirthday.valeur) {
     return;
-  } else if (resTournois.valeur === false) {
+  } else if (!resTournois.valeur) {
     return;
-  } else if (resVille.valeur === false) {
+  } else if (!resVille.valeur) {
     return;
-  } else if (resCondition.valeur === false) {
+  } else if (!resCondition.valeur) {
     return;
   } else {
     messageValidation();
-    fermeModal();
   }
+  document.querySelector('.bouton-fermer').addEventListener('click', fermeModal)
 }
 
 function validationTableau() {
@@ -258,9 +264,18 @@ function validationTableau() {
 
 btnSubmit.addEventListener("click", validationModale);
 
-function fermeModal() {
-  btnSubmit.setAttribute("value", "Fermer");
-  btnSubmit.addEventListener("click", function () {
-    modalbg.style.display = "none";
+function resetFormulaire () {
+  formData.forEach((items) => {
+    items.style["visibility"] = "visible" ; 
   });
+  document.querySelectorAll(".validation").forEach(element => element.remove());
+  form.reset()
 }
+
+function fermeModal() {
+  document.querySelector(".bouton-fermer").remove();
+  btnSubmit.style["visibility"] = "visible";
+  modalbg.style.display = "none";
+  resetFormulaire()
+}
+

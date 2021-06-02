@@ -341,6 +341,21 @@ input[data-error]::after {
   border: 0;
 }
 
+
+.bouton-fermer {
+  background: #fe142f;
+  display: block;
+  margin: 0 auto;
+  border-radius: 7px;
+  font-size: 1rem;
+  padding: 12px;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  width: 50%;
+  text-align: center;
+}
+
 .validation{
   position: absolute;
   color: white;
