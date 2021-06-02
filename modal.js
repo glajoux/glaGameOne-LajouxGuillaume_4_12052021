@@ -249,7 +249,8 @@ function validationModale(e) {
   } else {
     messageValidation();
   }
-  document.querySelector('.bouton-fermer').addEventListener('click', fermeModal)
+  document.querySelector('.bouton-fermer').addEventListener('click', fermeModal);
+  btnClose.addEventListener("click", fermeModal);
 }
 
 function validationTableau() {
