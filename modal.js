@@ -29,6 +29,7 @@ const conditionUtilisation = document.getElementById("checkbox1");
 const btnSubmit = document.querySelector('.btn-submit[type="submit"]');
 const formulaire = document.getElementById("formulaire"); 
 
+//Injection des message d'erreurs.
 const erreurQuantiteTournois = document.getElementById("message__tournoi");
 const erreurNom = document.getElementById("message__nom");
 const erreurPrenom = document.getElementById("message__prenom");
@@ -39,10 +40,13 @@ const erreurConditionVente = document.getElementById(
   "message__conditionsUtilisation"
 );
 
+// Pour validation des dates
 const dateBasse = new Date(1921, 1, 01);
 const dateHaute = new Date(2011, 1, 01);
 const dateNow = new Date(Date.now());
 
+//Class resultat qui permet d'avoir l'endroit ou injceter le message d'erreur,  
+// la valeur retouner par les fonctions de test et le message d'erreur
 class resultat {
   constructor(endroit, valeur, message) {
     this.endroit = endroit;
@@ -82,6 +86,8 @@ let resCondition = new resultat(
   false,
   "Veuillez accepter les conditions d'utilisation."
 );
+
+/*
 let resTotals = [
   resPrenom,
   resNom,
@@ -91,6 +97,7 @@ let resTotals = [
   resVille,
   resCondition,
 ];
+*/ 
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -116,6 +123,7 @@ function annuleErreur(ouInjecter, messageErreur, styleSurInput) {
   styleSurInput.style.border = "1px solid black";
 }
 */
+
 //fonction qui renvoie une erreur si l'input du nom est un nombre ou s'il a moins de 2 caratères.
 function validPrenom() {
   if (/(^[a-zA-Z])([a-zA-Z\-\'])/.test(firstName.value)) {
@@ -227,10 +235,39 @@ function messageValidation() {
   form.appendChild(boutonFermer)
 }
 
+// Fonciton qui test toute nos entrées de formulaire en lançant toutes les fonctions associées
+function validationFormulaire() {
+  validPrenom();
+  validNom();
+  validEmail();
+  validBirthday();
+  validTournois();
+  validVille();
+  validCondition();
+}
+
+// Fonction qui permet un reset du formulaire
+function resetFormulaire () {
+  formData.forEach((items) => {
+    items.style["visibility"] = "visible" ; 
+  });
+  document.querySelectorAll(".validation").forEach(element => element.remove());
+  form.reset()
+}
+
+//Fonction qui femre la modale
+function fermeModal() {
+  document.querySelector(".bouton-fermer").remove();
+  btnSubmit.style["visibility"] = "visible";
+  modalbg.style.display = "none";
+  resetFormulaire()
+}
+
+
 //Fonction qui vérifie si si le formulaire est bien renplis et l'envoi si c'est bon avec un message
 //Sinon affiche un message d'erreur sur les éléments mal remplis
 function validationModale(e) {
-  validationTableau();
+  validationFormulaire();
   e.preventDefault(); 
   if (!resPrenom.valeur) {
     return;
@@ -253,30 +290,7 @@ function validationModale(e) {
   btnClose.addEventListener("click", fermeModal);
 }
 
-function validationTableau() {
-  validPrenom();
-  validNom();
-  validEmail();
-  validBirthday();
-  validTournois();
-  validVille();
-  validCondition();
-}
 
 btnSubmit.addEventListener("click", validationModale);
 
-function resetFormulaire () {
-  formData.forEach((items) => {
-    items.style["visibility"] = "visible" ; 
-  });
-  document.querySelectorAll(".validation").forEach(element => element.remove());
-  form.reset()
-}
-
-function fermeModal() {
-  document.querySelector(".bouton-fermer").remove();
-  btnSubmit.style["visibility"] = "visible";
-  modalbg.style.display = "none";
-  resetFormulaire()
-}
 
